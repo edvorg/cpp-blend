@@ -1,0 +1,48 @@
+#! /bin/bash
+
+if [ "$1" == "" ] ; then
+    echo file not specified
+    exit 1
+fi
+
+if [ ! -f "$1" ] ; then
+    echo file not exits
+    exit 1
+fi
+
+LICENSE_INSTALLED="true"
+
+TMP=`cat $1 | grep '// BLEND_LICENSE_BEGIN' | wc -l`
+
+if [ "$TMP" != "" ] ; then
+    if (( $TMP < 1 )) ; then
+		LICENSE_INSTALLED="false"
+    fi
+fi
+
+TMP=`cat $1 | grep '// BLEND_LICENSE_END' | wc -l`
+
+if [ "$TMP" != "" ] ; then
+    if (( $TMP < 1 )) ; then
+		LICENSE_INSTALLED="false"
+    fi
+fi
+
+if [ "$LICENSE_INSTALLED" == "false" ] ; then
+    echo installing license in $1
+    cat $1 > $1.tmp
+    echo "// BLEND_LICENSE_BEGIN" > $1
+    cat ./license/license.txt >> $1
+    echo "// BLEND_LICENSE_END" >> $1
+    echo "" >> $1
+    cat $1.tmp >> $1
+    rm $1.tmp
+elif [ "$LICENSE_INSTALLED" == "true" ] ; then
+    echo updating license in $1
+    LINES_COUNT=`cat $1 | wc -l`
+    cat $1 | grep -B $LINES_COUNT '// BLEND_LICENSE_BEGIN' > $1.tmp
+    cat ./license/license.txt >> $1.tmp
+    cat $1 | grep -A $LINES_COUNT '// BLEND_LICENSE_END' >> $1.tmp
+    cat $1.tmp > $1
+    rm $1.tmp
+fi

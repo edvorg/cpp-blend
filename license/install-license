@@ -1,0 +1,5 @@
+#! /bin/bash
+
+find ./src -name "*.cpp" -exec ./license/install-license-impl {} \;
+find ./src -name "*.h" -exec ./license/install-license-impl {} \;
+find ./src -name "*.hpp" -exec ./license/install-license-impl {} \;
