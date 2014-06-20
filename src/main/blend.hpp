@@ -37,6 +37,7 @@ namespace blend {
 template <typename ... T> class Blend;
 
 template <typename T, typename ... U> class Blend<T, U ...> {
+	using ostream = std::ostream;
 	using ostringstream = std::ostringstream;
 	using string = std::string;
 
@@ -49,21 +50,17 @@ public:
 
 
 	operator string() const { return cat(); }
-	string cat() const { auto s = ostringstream{}; return cat(s).str(); }
-	ostringstream& cat(ostringstream& s) const { s << head; return tail.cat(s); }
+	string cat() const { auto s = ss(); cat(s); return s.str(); }
+	ostream& cat(ostream& s) const { s << head; return tail.cat(s); }
 
 
-	string join(const string& d) const {
-		auto s = ostringstream{};
-		return join(d, s).str();
-	}
-	ostringstream& join(const string& d, ostringstream& s) const {
-		s << head;
-		if (tail.nonEmpty()) s << d;
-		return tail.join(d, s);
+	string join(const string& d) const { auto s = ss(); join(d, s); return s.str(); }
+	ostream& join(const string& d, ostream& s) const {
+		s << head; if (tail.nonEmpty()) s << d; return tail.join(d, s);
 	}
 
 private:
+	ostringstream ss() const { return ostringstream{}; }
 
 	T head;
 	Blend<U ...> tail;
@@ -71,6 +68,7 @@ private:
 
 
 template <> class Blend<> {
+	using ostream = std::ostream;
 	using ostringstream = std::ostringstream;
 	using string = std::string;
 
@@ -81,13 +79,14 @@ public:
 
 	operator string() const { return {}; }
 	string cat() const { return *this; }
-	ostringstream& cat(ostringstream& s) const { return s; }
+	ostream& cat(ostream& s) const { return s; }
 
 
 	string join(const string&) const { return {}; }
-	ostringstream& join(const string&, ostringstream& s) const { return s; }
+	ostream& join(const string&, ostream& s) const { return s; }
 
 private:
+	ostringstream ss() const { return ostringstream{}; }
 };
 
 
