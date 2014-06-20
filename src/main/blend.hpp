@@ -50,8 +50,8 @@ public:
 
 
 	operator string() const { return cat(); }
-	string cat() const { auto s = ss(); cat(s); return s.str(); }
-	ostream& cat(ostream& s) const { s << head; return tail.cat(s); }
+	string cat() const { return join(""); }
+	ostream& cat(ostream& s) const { return join("", s); }
 
 
 	string join(const string& d) const { auto s = ss(); join(d, s); return s.str(); }
