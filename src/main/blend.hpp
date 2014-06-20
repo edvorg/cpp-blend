@@ -34,7 +34,7 @@ Original Blend Source Code repository can be found at https://github.com/edvorg/
 
 namespace blend {
 
-template <class ... T> class Blend;
+template <typename ... T> class Blend;
 
 template <typename T, typename ... U> class Blend<T, U ...> {
 	using ostringstream = std::ostringstream;
@@ -43,9 +43,25 @@ template <typename T, typename ... U> class Blend<T, U ...> {
 public:
 	Blend(T&& t, U&& ... u) : head{std::forward<T>(t)}, tail{std::forward<U>(u) ... } {}
 
+
+	bool empty() const { return false; }
+	bool nonEmpty() const { return !empty(); }
+
+
 	operator string() const { return cat(); }
 	string cat() const { auto s = ostringstream{}; return cat(s).str(); }
 	ostringstream& cat(ostringstream& s) const { s << head; return tail.cat(s); }
+
+
+	string join(const string& d) const {
+		auto s = ostringstream{};
+		return join(d, s).str();
+	}
+	ostringstream& join(const string& d, ostringstream& s) const {
+		s << head;
+		if (tail.nonEmpty()) s << d;
+		return tail.join(d, s);
+	}
 
 private:
 
@@ -53,17 +69,27 @@ private:
 	Blend<U ...> tail;
 };
 
+
 template <> class Blend<> {
 	using ostringstream = std::ostringstream;
 	using string = std::string;
 
 public:
+	bool empty() const { return true; }
+	bool nonEmpty() const { return !empty(); }
+
+
 	operator string() const { return {}; }
 	string cat() const { return *this; }
-	ostringstream& cat(ostringstream& stream) const { return stream; }
+	ostringstream& cat(ostringstream& s) const { return s; }
+
+
+	string join(const string&) const { return {}; }
+	ostringstream& join(const string&, ostringstream& s) const { return s; }
 
 private:
 };
+
 
 template <typename ... T> Blend<typename std::decay<T>::type ...> blend(T&& ... t) {
 	return Blend<typename std::decay<T>::type ...>{std::forward<T>(t) ...};
