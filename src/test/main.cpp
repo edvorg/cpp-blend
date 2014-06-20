@@ -34,7 +34,8 @@ int main() {
 
 	cout << "running blend tests" << endl;
 
-	cout << blend::blend(1, 2, 3);
+	cout << blend::blend("hello, ", 1, " hello ", 2, 3) << endl;
+	cout << blend::blend("hello, ", 1, " hello ", 2, 3).join("<delim>") << endl;
 
 	cout << "blend tests finished" << endl;
 
