@@ -26,4 +26,54 @@ Original Blend Source Code repository can be found at https://github.com/edvorg/
 
 #ifndef BLEND_SRC_MAIN_BLEND_HPP
 #define BLEND_SRC_MAIN_BLEND_HPP
+
+#include <tuple>
+#include <utility>
+#include <string>
+#include <sstream>
+
+namespace blend {
+
+template <class ... T> class Blend;
+
+template <typename T, typename ... U> class Blend<T, U ...> {
+	using ostringstream = std::ostringstream;
+	using string = std::string;
+
+public:
+	Blend(T&& t, U&& ... u) : head{std::forward<T>(t)}, tail{std::forward<U>(u) ... } {}
+
+	operator string() const { return cat(); }
+	string cat() const { auto s = ostringstream{}; return cat(s).str(); }
+	ostringstream& cat(ostringstream& s) const { s << head; return tail.cat(s); }
+
+private:
+
+	T head;
+	Blend<U ...> tail;
+};
+
+template <> class Blend<> {
+	using ostringstream = std::ostringstream;
+	using string = std::string;
+
+public:
+	operator string() const { return {}; }
+	string cat() const { return *this; }
+	ostringstream& cat(ostringstream& stream) const { return stream; }
+
+private:
+};
+
+template <typename ... T> Blend<typename std::decay<T>::type ...> blend(T&& ... t) {
+	return Blend<typename std::decay<T>::type ...>{std::forward<T>(t) ...};
+}
+
+template <typename ... T> std::ostream& operator<< (std::ostream& s, const Blend<T ...>& b) {
+	s << b.cat();
+	return s;
+}
+
+} // namespace blend
+
 #endif // BLEND_SRC_MAIN_BLEND_HPP

@@ -26,11 +26,16 @@ Original Blend Source Code repository can be found at https://github.com/edvorg/
 
 #include <iostream>
 
+#include <blend.hpp>
+
 int main() {
 	using std::cout;
 	using std::endl;
 
 	cout << "running blend tests" << endl;
+
+	cout << blend::blend(1, 2, 3);
+
 	cout << "blend tests finished" << endl;
 
 	return 0;
