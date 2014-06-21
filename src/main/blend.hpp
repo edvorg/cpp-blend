@@ -45,8 +45,8 @@ public:
 	Blend(T&& t, U&& ... u) : head{std::forward<T>(t)}, tail{std::forward<U>(u) ... } {}
 
 
-	bool empty() const { return false; }
-	bool nonEmpty() const { return !empty(); }
+	static constexpr bool empty() { return false; }
+	static constexpr bool nonEmpty() { return !empty(); }
 
 
 	operator string() const { return cat(); }
@@ -73,8 +73,8 @@ template <> class Blend<> {
 	using string = std::string;
 
 public:
-	bool empty() const { return true; }
-	bool nonEmpty() const { return !empty(); }
+	static constexpr bool empty() { return true; }
+	static constexpr bool nonEmpty() { return !empty(); }
 
 
 	operator string() const { return {}; }
