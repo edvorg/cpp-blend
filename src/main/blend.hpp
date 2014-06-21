@@ -54,7 +54,9 @@ public:
 	ostream& cat(ostream& s) const { return join("", s); }
 
 
-	string join(const string& d) const { auto s = ss(); join(d, s); return s.str(); }
+	string join(const string& d) const {
+		ostringstream s{}; join(d, s); return s.str();
+	}
 	ostream& join(const string& d, ostream& s) const {
 		s << head; if (tail.nonEmpty()) s << d; return tail.join(d, s);
 	}
