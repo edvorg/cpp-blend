@@ -86,7 +86,6 @@ public:
 	ostream& join(const string&, ostream& s) const { return s; }
 
 private:
-	ostringstream ss() const { return ostringstream{}; }
 };
 
 
