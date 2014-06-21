@@ -42,7 +42,7 @@ template <typename T, typename ... U> class Blend<T, U ...> {
 	using string = std::string;
 
 public:
-	Blend(T&& t, U&& ... u) : head{std::forward<T>(t)}, tail{std::forward<U>(u) ... } {}
+	Blend(T&& t, U&& ... u) : head(std::forward<T>(t)), tail{std::forward<U>(u) ... } {}
 
 
 	static constexpr bool empty() { return false; }
