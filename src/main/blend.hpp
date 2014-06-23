@@ -57,6 +57,18 @@ public:
 		s << head; if (tail.nonEmpty()) s << d; return tail.join(std::forward<V>(d), s);
 	}
 
+	template <class V, class W, class Y> string wrap(V&& b, W&& d, Y&& a) const {
+		ostringstream s{};
+		wrap(std::forward<V>(b), std::forward<W>(d), std::forward<Y>(a), s);
+		return s.str();
+	}
+	template <class V, class W, class Y> ostream& wrap(V&& b, W&& d, Y&& a, ostream& s) const {
+		s << std::forward<V>(b);
+		join(std::forward<W>(d), s);
+		s << std::forward<Y>(a);
+		return s;
+	}
+
 private:
 	ostringstream ss() const { return ostringstream{}; }
 
@@ -80,6 +92,16 @@ public:
 
 	template <class T> string join(T&&) const { return {}; }
 	template <class T> ostream& join(T&&, ostream& s) const { return s; }
+
+	template <class T, class U, class V> string wrap(T&& b, U&& d, V&& a) const {
+		ostringstream s{};
+		wrap(std::forward<T>(b), std::forward<U>(d), std::forward<V>(a), s);
+		return s.str();
+	}
+	template <class T, class U, class V> ostream& wrap(T&& b, U&& d, V&& a, ostream& s) const {
+		s << std::forward<T>(b) << std::forward<V>(a);
+		return s;
+	}
 };
 
 
