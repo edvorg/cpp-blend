@@ -27,8 +27,10 @@ Original Blend Source Code repository can be found at https://github.com/edvorg/
 #include <iostream>
 
 #include <blend.hpp>
+#include <list.hpp>
 
 int main() {
+	using namespace blend;
 	using std::cout;
 	using std::endl;
 
