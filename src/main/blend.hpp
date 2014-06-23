@@ -43,21 +43,18 @@ template <typename T, typename ... U> class Blend<T, U ...> {
 public:
 	Blend(T&& t, U&& ... u) : head(std::forward<T>(t)), tail{std::forward<U>(u) ... } {}
 
-
 	static constexpr bool empty() { return false; }
 	static constexpr bool nonEmpty() { return !empty(); }
-
 
 	operator string() const { return cat(); }
 	string cat() const { return join(""); }
 	ostream& cat(ostream& s) const { return join("", s); }
 
-
-	string join(const string& d) const {
-		ostringstream s{}; join(d, s); return s.str();
+	template <class V> string join(V&& d) const {
+		ostringstream s{}; join(std::forward<V>(d), s); return s.str();
 	}
-	ostream& join(const string& d, ostream& s) const {
-		s << head; if (tail.nonEmpty()) s << d; return tail.join(d, s);
+	template <class V> ostream& join(V&& d, ostream& s) const {
+		s << head; if (tail.nonEmpty()) s << d; return tail.join(std::forward<V>(d), s);
 	}
 
 private:
@@ -77,16 +74,12 @@ public:
 	static constexpr bool empty() { return true; }
 	static constexpr bool nonEmpty() { return !empty(); }
 
-
 	operator string() const { return {}; }
 	string cat() const { return *this; }
 	ostream& cat(ostream& s) const { return s; }
 
-
-	string join(const string&) const { return {}; }
-	ostream& join(const string&, ostream& s) const { return s; }
-
-private:
+	template <class T> string join(T&&) const { return {}; }
+	template <class T> ostream& join(T&&, ostream& s) const { return s; }
 };
 
 
