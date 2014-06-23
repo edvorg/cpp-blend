@@ -27,7 +27,6 @@ Original Blend Source Code repository can be found at https://github.com/edvorg/
 #ifndef BLEND_SRC_MAIN_BLEND_HPP
 #define BLEND_SRC_MAIN_BLEND_HPP
 
-#include <tuple>
 #include <utility>
 #include <string>
 #include <sstream>
