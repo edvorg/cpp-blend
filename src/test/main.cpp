@@ -30,15 +30,26 @@ Original Blend Source Code repository can be found at https://github.com/edvorg/
 #include <list.hpp>
 
 int main() {
-	using namespace blend;
+	using blend::blend;
+	using blend::list;
 	using std::cout;
 	using std::endl;
 
 	cout << "running blend tests" << endl;
 
-	cout << blend::blend("hello, ", 1, " hello ", 2, 3) << endl;
-	cout << blend::blend("hello, ", 1, " hello ", 2, 3).join("<delim>") << endl;
-	cout << list(1, 2, 3).reverse(list()).toString() << endl;
+	cout << blend("hello, ", 1, " hello ", 2, 3) << endl;
+	cout << blend("hello, ", 1, " hello ", 2, 3).cat() << endl;
+	cout << blend::cat("hello, ", 1, " hello ", 2, 3) << endl;
+
+	cout << blend("hello, ", 1, " hello ", 2, 3).join("<delim>") << endl;
+	cout << blend::join("<delim>", "hello, ", 1, " hello ", 2, 3) << endl;
+
+	cout << blend(1, 2, 3).wrap('{', ", ", '}') << endl;
+	cout << blend::wrap('{', ", ", '}', 1, 2, 3) << endl;
+
+	cout << blend(1, 2, 3).format("1 hello, $1. it's $2. full: $0") << endl;
+	cout << blend::format("2 hello, $1. it's $2. full: $0", 1, 2, 3) << endl;
+
 	cout << "blend tests finished" << endl;
 
 	return 0;
