@@ -36,7 +36,7 @@ int main() {
 
 	cout << blend::blend("hello, ", 1, " hello ", 2, 3) << endl;
 	cout << blend::blend("hello, ", 1, " hello ", 2, 3).join("<delim>") << endl;
-
+	cout << list(1, 2, 3).reverse(list()).toString() << endl;
 	cout << "blend tests finished" << endl;
 
 	return 0;
