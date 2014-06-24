@@ -150,8 +150,6 @@ public:
 	}
 
 private:
-	ostringstream ss() const { return ostringstream{}; }
-
 	Head head;
 	Tail tail;
 };
