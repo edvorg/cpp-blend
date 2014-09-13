@@ -55,7 +55,7 @@ public:
 		auto pe = b + 1;
 
 		if (*b == '$') {
-			auto id = 0;
+			size_t id = 0;
 
 			for (; pe != e && ('0' <= *pe && *pe <= '9'); ++pe)
 				id = id * 10 + (*pe - '0');

@@ -24,8 +24,8 @@ all:
 	echo compile with ${CC2}
 	${CC2} ${CC2_FLAGS} ${LL2_FLAGS} src/test/main.cpp
 
-	echo compile with ${CC3}
-	${CC3} ${CC3_FLAGS} ${LL3_FLAGS} src/test/main.cpp
+# echo compile with ${CC3}
+# ${CC3} ${CC3_FLAGS} ${LL3_FLAGS} src/test/main.cpp
 
 check-syntax:
 	${CC1} ${CC1_FLAGS} ${LL1_FLAGS} -fsyntax-only -fno-color-diagnostics ${CHK_SOURCES}
